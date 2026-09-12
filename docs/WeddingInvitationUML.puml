@@ -1,0 +1,68 @@
+@startuml
+
+title Wedding Invitation Builder Pattern
+
+class WeddingInvitation {
+    - brideName : String
+    - groomName : String
+    - date : String
+    - time : String
+    - venue : String
+    - dressCode : String
+    - rsvp : String
+    - format : InvitationFormat
+    - deliveryDetails : String
+
+    + WeddingInvitation(...)
+    + toString() : String
+}
+
+enum InvitationFormat {
+    DIGITAL
+    PRINTED
+}
+
+abstract class WeddingInvitationBuilder {
+    # brideName : String
+    # groomName : String
+    # date : String
+    # time : String
+    # venue : String
+    # dressCode : String
+    # rsvp : String
+
+    + setBrideName(brideName : String) : WeddingInvitationBuilder
+    + setGroomName(groomName : String) : WeddingInvitationBuilder
+    + setDate(date : String) : WeddingInvitationBuilder
+    + setTime(time : String) : WeddingInvitationBuilder
+    + setVenue(venue : String) : WeddingInvitationBuilder
+    + setDressCode(dressCode : String) : WeddingInvitationBuilder
+    + setRsvp(rsvp : String) : WeddingInvitationBuilder
+    + build() : WeddingInvitation
+}
+
+class DigitalWeddingInvitationBuilder
+class PrintedWeddingInvitationBuilder
+
+class WeddingInvitationDirector {
+    + createElegantInvitation(builder : WeddingInvitationBuilder) : WeddingInvitation
+    + createSimpleInvitation(builder : WeddingInvitationBuilder) : WeddingInvitation
+}
+
+class Main {
+    + main(args : String[]) : void
+}
+
+WeddingInvitationBuilder <|-- DigitalWeddingInvitationBuilder
+WeddingInvitationBuilder <|-- PrintedWeddingInvitationBuilder
+
+WeddingInvitationBuilder --> WeddingInvitation : builds
+WeddingInvitation --> InvitationFormat : uses
+
+WeddingInvitationDirector --> WeddingInvitationBuilder : uses
+
+Main --> WeddingInvitationDirector
+Main --> DigitalWeddingInvitationBuilder
+Main --> PrintedWeddingInvitationBuilder
+
+@enduml
